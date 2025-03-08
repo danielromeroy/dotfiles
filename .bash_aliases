@@ -21,8 +21,8 @@ alias clippy="cargo clippy -- -W clippy::pedantic"
 alias rust="evcxr"
 
 # column-sep files
-alias coltsv="column -ts $'\t'"
-alias colcsv="column -ts ','"
+alias coltsv="column -ts $'\t' | less -S"
+alias colcsv="column -ts ',' | less -S"
 
 # misc
 alias less="less -S"
