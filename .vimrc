@@ -1,12 +1,14 @@
 set number
 set autoindent
+set background=dark
+set history=500
+syntax enable
+
+" prefer spaces over tabs
 set expandtab
 set smarttab
 set shiftwidth=4
 set tabstop=4
-set background=dark
-set history=500
-syntax enable
 
 " enable mouse control
 set mouse=a
