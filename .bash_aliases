@@ -27,6 +27,8 @@ alias colcsv="column -ts ',' | less -S"
 # misc
 alias less="less -S"
 alias vi="vim"
+alias upd="sudo apt update && sudo apt upgrade -y"
+alias rbt="sudo reboot"
 
 rs () {
     grep -rn "$1" *;
