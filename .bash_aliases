@@ -18,11 +18,7 @@ alias gaa="git add *"
 # rust
 alias crun="cargo run"
 alias clippy="cargo clippy -- -W clippy::pedantic"
-alias rust="evcxr"
-
-# column-sep files
-alias coltsv="column -ts $'\t'"
-alias colcsv="column -ts ','"
+alias rust_repl="evcxr"
 
 # misc
 alias less="less -S"
@@ -30,6 +26,16 @@ alias vi="vim"
 alias upd="sudo apt update && sudo apt upgrade -y"
 alias rbt="sudo reboot"
 
+# recursive search
 rs () {
     grep -rn "$1" *;
+}
+
+# column-sep files
+colcsv () {
+    column -ts ',' "$1" | less -S;
+}
+
+coltsv () {
+    column -ts $'\t' "$1" | less -S;
 }
