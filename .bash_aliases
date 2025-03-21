@@ -2,8 +2,8 @@
 
 # ls
 alias ls='ls --color=auto -F'
-alias l='ls -CF'
-alias ll='ls -lahF'
+alias ll='ls -lhF'
+alias lll='ls -lahF'
 alias ññ='echo "did you mean ll? :p"; ll'
 alias ææ='echo "did you mean ll? :p"; ll'
 
