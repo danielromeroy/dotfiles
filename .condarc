@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - https://repo.anaconda.com/pkgs/main
+  - bioconda
+  - https://repo.anaconda.com/pkgs/r
+changeps1: false
+channel_priority: strict
