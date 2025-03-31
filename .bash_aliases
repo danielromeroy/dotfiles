@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # ls
-alias ls='ls --color=auto -F'
-alias ll='ls -lhF'
-alias lll='ls -lahF'
+alias ls='ls --color=auto'
+alias ll='ls -lahF'
+alias lll='ls -lhF'
 alias ññ='echo "did you mean ll? :p"; ll'
 alias ææ='echo "did you mean ll? :p"; ll'
 
