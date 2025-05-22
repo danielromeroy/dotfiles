@@ -9,11 +9,16 @@ alias ææ='echo "did you mean ll? :p"; echo ""; ll'
 
 # git
 alias gs="git status"
-alias gc="git commit -m"
 alias gpl="git pull"
 alias gps="git push"
 alias ga="git add"
 alias gaa="git add --all; echo ''; git status"
+
+gc () {
+    git commit -m "$1"
+    echo ""
+    git status
+}
 
 # rust
 alias crun="cargo run"
