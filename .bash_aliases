@@ -12,12 +12,10 @@ alias gs="git status"
 alias gpl="git pull"
 alias gps="git push"
 alias ga="git add"
-alias gaa="git add --all; echo ''; git status"
+alias gaa="git add --all && echo "" && git status"
 
 gc () {
-    git commit -m "$1"
-    echo ""
-    git status
+    git commit -m "$1" && echo "" && git status
 }
 
 # rust
