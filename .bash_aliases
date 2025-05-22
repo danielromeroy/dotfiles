@@ -13,7 +13,7 @@ alias gc="git commit -m"
 alias gpl="git pull"
 alias gps="git push"
 alias ga="git add"
-alias gaa="git add --all"
+alias gaa="git add --all; echo ''; git status"
 
 # rust
 alias crun="cargo run"
