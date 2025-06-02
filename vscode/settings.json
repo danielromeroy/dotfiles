@@ -64,5 +64,6 @@
     "editor.smoothScrolling": true,
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "password-store":"gnome-libsecret"
 }
