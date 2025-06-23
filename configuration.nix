@@ -46,6 +46,7 @@
     };
     desktopManager.plasma6.enable = true;
     gnome.gnome-keyring.enable = true;
+    cron.enable = true;
   };
 
   # sound
@@ -102,6 +103,7 @@
     vscode
     obsidian
     rstudio
+    brave
 
     # libreoffice
     libreoffice-qt
