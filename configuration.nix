@@ -98,8 +98,9 @@
     libsecret
 
     # programs
-    qalculate-gtk
+    fzf
     htop
+    qalculate-gtk
     vscode
     obsidian
     rstudio
