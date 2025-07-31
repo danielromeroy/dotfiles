@@ -16,6 +16,7 @@
 
   networking.hostName = "vmw-nixos";
   networking.networkmanager.enable = true;
+  networking.nameservers = ["1.1.1.1" "8.8.8.8"];
 
   time.timeZone = "Europe/Copenhagen";
 
@@ -50,10 +51,10 @@
   };
 
   # sound
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
+  # services.pipewire = {
+  #   enable = true;
+  #   pulse.enable = true;
+  # };
 
   # touchpad support
   services.libinput.enable = true;
@@ -68,11 +69,11 @@
   };
 
   programs = {
-    firefox.enable = true;
     hyprland.enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowBroken = true;
 
   # packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -99,11 +100,13 @@
 
     # programs
     fzf
+    bat
     htop
+    csvtk
     qalculate-gtk
     vscode
     obsidian
-    rstudio
+    # rstudio
     brave
 
     # libreoffice
@@ -182,7 +185,7 @@
     mesa
     expat
     libxkbcommon
-    libgbm
+    # libgbm
     systemd
     at-spi2-core
     cups
