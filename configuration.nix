@@ -16,11 +16,18 @@
 
   networking.hostName = "vmw-nixos";
   networking.networkmanager.enable = true;
-  networking.nameservers = ["1.1.1.1" "8.8.8.8"];
+  networking.nameservers = ["1.1.1.1" "8.8.8.8" "9.9.9.9"];
 
   time.timeZone = "Europe/Copenhagen";
 
-  hardware.graphics.enable = true;
+  hardware = { 
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        libvdpau-va-gl
+      ];
+    };
+  };
   virtualisation.vmware.guest.enable = true;
 
   # internationalisation properties.
@@ -51,10 +58,12 @@
   };
 
   # sound
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+    wireplumber.enable = true;
+  };
 
   # touchpad support
   services.libinput.enable = true;
@@ -71,6 +80,29 @@
   programs = {
     hyprland.enable = true;
   };
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      quarto = prev.quarto.overrideAttrs (old: {
+        installPhase = ''
+          runHook preInstall
+
+          # Create the expected tools directory so Quarto (and Positron) can find its helpers
+          mkdir -p $out/bin/tools
+          ln -s ${prev.lib.getExe prev.pandoc} $out/bin/tools/pandoc
+          ln -s ${prev.lib.getExe prev.deno} $out/bin/tools/deno
+          ln -s ${prev.lib.getExe prev.esbuild} $out/bin/tools/esbuild
+          ln -s ${prev.lib.getExe prev.typst} $out/bin/tools/typst
+
+
+          # Include the remainder of the original installPhase
+          ${old.installPhase}
+
+          runHook postInstall
+        '';
+      });
+    })
+  ];
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
@@ -106,7 +138,27 @@
     qalculate-gtk
     vscode
     obsidian
-    # rstudio
+    (rstudioWrapper.override {
+      packages = with rPackages; [
+        tidyverse
+        patchwork
+        ggridges
+        table1
+        ggseqlogo
+        tidymodels
+        usethis
+        gitcreds
+        devtools
+        roxygen2
+        testthat
+        gert
+        shiny
+        golem
+        gt
+      ];
+    })
+    quarto
+    sqlite
     brave
 
     # libreoffice
@@ -117,6 +169,8 @@
     # for running external programs
     nix-ld
 
+    mesa
+
     # hyprland stuff
     waybar
     rofi-wayland
@@ -126,7 +180,7 @@
     cliphist
     loupe
     gtk-engine-murrine
-    hypridle
+    # hypridle
     libsForQt5.qtstyleplugin-kvantum
     nwg-displays
     nwg-look
@@ -185,11 +239,12 @@
     mesa
     expat
     libxkbcommon
-    # libgbm
+    libgbm
     systemd
     at-spi2-core
     cups
     alsa-lib
+    sqlite.dev
     xorg.libX11
     xorg.libXcomposite
     xorg.libXdamage
@@ -202,7 +257,7 @@
   # Save disk space
   nix.optimise.automatic = true;
 
-  # Run the GC weekly keeping the 5 most recent generation of each profiles.
+  # Run the GC daily keeping the 5 most recent generation of each profiles.
   nix.gc = {
     automatic = true;
     dates = "daily";
@@ -219,4 +274,5 @@
   # even if you've upgraded your system to a new NixOS release.
   system.stateVersion = "25.05";
 }
+
 
