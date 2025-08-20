@@ -79,6 +79,7 @@
 
   programs = {
     hyprland.enable = true;
+    xwayland.enable = true;
   };
 
   nixpkgs.overlays = [
@@ -143,10 +144,12 @@
         tidyverse
         patchwork
         ggridges
+        ggbeeswarm
         table1
         ggseqlogo
         tidymodels
         usethis
+        here
         gitcreds
         devtools
         roxygen2
@@ -196,6 +199,7 @@
     xarchiver
     yad
     bc
+    grim
   ];
 
   environment.variables = {
@@ -207,7 +211,10 @@
     jetbrains-mono
     font-awesome
     nerd-fonts.jetbrains-mono
+    helvetica-neue-lt-std
   ];
+  fonts.enableDefaultPackages = true;
+  fonts.enableGhostscriptFonts = true;
 
   # services.openssh.enable = true;
 
