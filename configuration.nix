@@ -11,8 +11,12 @@
     ];
 
   # Use the systemd-boot EFI boot loader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    kernelPackages = pkgs.linuxPackages_latest;
+  }
+
 
   networking.hostName = "vmw-nixos";
   networking.networkmanager.enable = true;
@@ -39,17 +43,17 @@
   services = {
     xserver = {
       enable = true;
-      xkb.layout = "dk";
+      xkb.layout = "us";
     };
     displayManager.sddm = {
-	enable = true;
-	enableHidpi = true;
-	wayland.enable = true;
-	settings = {
-		General = {
-			GreeterEnvironment = "QT_SCREEN_SCALE_FACTORS=2,QT_FONT_DPI=192";
-		};
-	};
+	    enable = true;
+	    enableHidpi = true;
+	    wayland.enable = true;
+	    settings = {
+        General = {
+          GreeterEnvironment = "QT_SCREEN_SCALE_FACTORS=2,QT_FONT_DPI=192";
+        };
+	    };
     };
     desktopManager.plasma6.enable = true;
     gnome.gnome-keyring.enable = true;
@@ -70,11 +74,9 @@
   # user account
   users.users.danyia = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      tree
-    ];
+    extraGroups = [ "networkmanager" "wheel" ];
   };
+  services.getty.autologinUser = "danyia";
 
   programs = {
     hyprland.enable = true;
@@ -129,6 +131,7 @@
     cronie
     file
     libsecret
+    tree
 
     # programs
     fzf
