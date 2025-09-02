@@ -20,13 +20,12 @@
 
   time.timeZone = "Europe/Copenhagen";
 
-  hardware = { 
-    graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        libvdpau-va-gl
-      ];
-    };
+  hardware.graphics = { 
+    enable = true;
+    extraPackages = with pkgs; [
+      libvdpau-va-gl
+      mesa
+    ];
   };
   virtualisation.vmware.guest.enable = true;
 
@@ -136,6 +135,7 @@
     bat
     htop
     csvtk
+    sshfs-fuse
     qalculate-gtk
     vscode
     obsidian
@@ -147,6 +147,7 @@
         ggbeeswarm
         table1
         ggseqlogo
+        ggrepel
         tidymodels
         usethis
         here
@@ -168,6 +169,9 @@
     libreoffice-qt
     hunspell
     hunspellDicts.en_US
+
+    # for intro to bioinformatics TA
+    geany
 
     # for running external programs
     nix-ld
