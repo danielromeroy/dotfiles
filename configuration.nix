@@ -223,7 +223,14 @@
   fonts.enableDefaultPackages = true;
   fonts.enableGhostscriptFonts = true;
 
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = true;
+      AllowUsers = null; # Allows all users
+    };
+  };
 
   services.envfs.enable = true;
 
