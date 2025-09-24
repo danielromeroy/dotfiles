@@ -5,3 +5,4 @@ channels:
   - https://repo.anaconda.com/pkgs/r
 changeps1: false
 channel_priority: strict
+auto_stack: 1
