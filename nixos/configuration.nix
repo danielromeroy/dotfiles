@@ -74,7 +74,7 @@
   # user account
   users.users.danyia = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
   };
   services.getty.autologinUser = "danyia";
 
@@ -162,6 +162,7 @@
         shiny
         golem
         gt
+        viridis
       ];
     })
     quarto
