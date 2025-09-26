@@ -79,7 +79,10 @@
   services.getty.autologinUser = "danyia";
 
   programs = {
-    hyprland.enable = true;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
     xwayland.enable = true;
   };
 
@@ -163,6 +166,7 @@
         golem
         gt
         viridis
+        pROC
       ];
     })
     quarto
@@ -184,7 +188,7 @@
 
     # hyprland stuff
     waybar
-    rofi-wayland
+    rofi
     wallust
     wl-clipboard
     ags
