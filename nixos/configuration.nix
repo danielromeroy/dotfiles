@@ -4,6 +4,10 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  hyprPkg = pkgs.hyprland;
+  portalPkg = pkgs.xdg-desktop-portal-hyprland;
+in
 {
   imports =
     [
@@ -24,13 +28,13 @@
 
   time.timeZone = "Europe/Copenhagen";
 
-  hardware.graphics = { 
-    enable = true;
-    extraPackages = with pkgs; [
-      libvdpau-va-gl
-      mesa
-    ];
-  };
+  # hardware.graphics = { 
+  #   enable = true;
+  #   extraPackages = with pkgs; [
+  #     libvdpau-va-gl
+  #     mesa
+  #   ];
+  # };
   virtualisation.vmware.guest.enable = true;
 
   # internationalisation properties.
@@ -42,7 +46,7 @@
 
   services = {
     xserver = {
-      enable = true;
+      enable = false;
       xkb.layout = "us";
     };
     displayManager.sddm = {
@@ -58,6 +62,7 @@
     desktopManager.plasma6.enable = true;
     gnome.gnome-keyring.enable = true;
     cron.enable = true;
+    libinput.enable = true;
   };
 
   # sound
@@ -67,9 +72,6 @@
     alsa.enable = true;
     wireplumber.enable = true;
   };
-
-  # touchpad support
-  services.libinput.enable = true;
 
   # user account
   users.users.danyia = {
@@ -82,6 +84,8 @@
     hyprland = {
       enable = true;
       xwayland.enable = true;
+      package = hyprPkg;
+      portalPackage = portalPkg;
     };
     xwayland.enable = true;
   };
@@ -145,6 +149,16 @@
     qalculate-gtk
     vscode
     obsidian
+    quarto
+    sqlite
+    brave
+    pymol
+
+    # X11 testing
+    xorg.xeyes
+    xorg.xclock
+
+    # RStudio, R & R packages
     (rstudioWrapper.override {
       packages = with rPackages; [
         tidyverse
@@ -169,9 +183,6 @@
         pROC
       ];
     })
-    quarto
-    sqlite
-    brave
 
     # libreoffice
     libreoffice-qt
