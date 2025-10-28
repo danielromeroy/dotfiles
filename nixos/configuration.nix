@@ -28,13 +28,13 @@ in
 
   time.timeZone = "Europe/Copenhagen";
 
-  # hardware.graphics = { 
-  #   enable = true;
-  #   extraPackages = with pkgs; [
-  #     libvdpau-va-gl
-  #     mesa
-  #   ];
-  # };
+  hardware.graphics = { 
+    enable = true;
+    extraPackages = with pkgs; [
+      libvdpau-va-gl
+      mesa
+    ];
+  };
   virtualisation.vmware.guest.enable = true;
 
   # internationalisation properties.
@@ -153,6 +153,8 @@ in
     sqlite
     brave
     pymol
+    pandoc
+    texliveSmall
 
     # X11 testing
     xorg.xeyes
@@ -189,13 +191,8 @@ in
     hunspell
     hunspellDicts.en_US
 
-    # for intro to bioinformatics TA
-    geany
-
     # for running external programs
     nix-ld
-
-    mesa
 
     # hyprland stuff
     waybar
