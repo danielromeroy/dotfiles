@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-PATH="$PATH:~/.bin"
+if [[ $- == *i* ]]; then
+  PATH="$PATH:~/.bin"
+
+  # append to history on every bash command completion and longer bash history
+  shopt -s histappend
+  export PROMPT_COMMAND='history -a'
+  export HISTFILESIZE=10000
+fi
 
 if command -v fzf-share >/dev/null; then
   source "$(fzf-share)/key-bindings.bash"
