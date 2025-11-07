@@ -7,12 +7,11 @@
 let
   hyprPkg = pkgs.hyprland;
   portalPkg = pkgs.xdg-desktop-portal-hyprland;
-in
-{
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  pkgs_old = import (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/e6f23dc08d3624daab7094b701aa3954923c6bbb.tar.gz";
+  }) {};
+in {
+  imports = [ ./hardware-configuration.nix ];
 
   # Use the systemd-boot EFI boot loader
   boot = {
@@ -21,19 +20,15 @@ in
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-
   networking.hostName = "vmw-nixos";
   networking.networkmanager.enable = true;
-  networking.nameservers = ["1.1.1.1" "8.8.8.8" "9.9.9.9"];
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" "9.9.9.9" ];
 
   time.timeZone = "Europe/Copenhagen";
 
-  hardware.graphics = { 
+  hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      libvdpau-va-gl
-      mesa
-    ];
+    extraPackages = with pkgs; [ libvdpau-va-gl mesa ];
   };
   virtualisation.vmware.guest.enable = true;
 
@@ -49,15 +44,22 @@ in
       enable = false;
       xkb.layout = "us";
     };
-    displayManager.sddm = {
-	    enable = true;
-	    enableHidpi = true;
-	    wayland.enable = true;
-	    settings = {
-        General = {
-          GreeterEnvironment = "QT_SCREEN_SCALE_FACTORS=2,QT_FONT_DPI=192";
+    displayManager = {
+      autoLogin = {
+        enable = true;
+        user = "danyia";
+      };
+      defaultSession = "hyprland";
+      sddm = {
+        enable = true;
+        enableHidpi = true;
+        wayland.enable = true;
+        settings = {
+          General = {
+            GreeterEnvironment = "QT_SCREEN_SCALE_FACTORS=2,QT_FONT_DPI=192";
+          };
         };
-	    };
+      };
     };
     desktopManager.plasma6.enable = true;
     gnome.gnome-keyring.enable = true;
@@ -139,6 +141,7 @@ in
     file
     libsecret
     tree
+    pkgs_old.tshark # compatibility with PyShark
 
     # programs
     fzf
@@ -152,13 +155,9 @@ in
     quarto
     sqlite
     brave
-    pymol
     pandoc
     texliveSmall
-
-    # X11 testing
-    xorg.xeyes
-    xorg.xclock
+    nixfmt-classic
 
     # RStudio, R & R packages
     (rstudioWrapper.override {
@@ -186,11 +185,6 @@ in
       ];
     })
 
-    # libreoffice
-    libreoffice-qt
-    hunspell
-    hunspellDicts.en_US
-
     # for running external programs
     nix-ld
 
@@ -203,7 +197,7 @@ in
     cliphist
     loupe
     gtk-engine-murrine
-    # hypridle
+    # hyprcursor
     libsForQt5.qtstyleplugin-kvantum
     nwg-displays
     nwg-look
@@ -225,14 +219,14 @@ in
   environment.variables = {
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
+  fonts.packages = (builtins.filter lib.attrsets.isDerivation
+    (builtins.attrValues pkgs.nerd-fonts)) ++ (with pkgs; [
+      noto-fonts
+      jetbrains-mono
+      font-awesome
+      helvetica-neue-lt-std
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    jetbrains-mono
-    font-awesome
-    nerd-fonts.jetbrains-mono
-    helvetica-neue-lt-std
-  ];
+    ]);
   fonts.enableDefaultPackages = true;
   fonts.enableGhostscriptFonts = true;
 
@@ -295,7 +289,7 @@ in
   nix.gc = {
     automatic = true;
     dates = "daily";
-    options = "--delete-older-than +5"; 
+    options = "--delete-older-than +5";
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
@@ -308,5 +302,3 @@ in
   # even if you've upgraded your system to a new NixOS release.
   system.stateVersion = "25.05";
 }
-
-
