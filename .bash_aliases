@@ -36,17 +36,33 @@ rs () {
 
 # column-sep files
 colcsv () {
-    if [ $# -eq 0 ]; then
-        column -ts ',' | less -S;
+    if command -v csvtk >/dev/null 2>&1; then
+        if [ $# -eq 0 ]; then
+            csvtk pretty | less -S
+        else
+            csvtk pretty "$1" | less -S
+        fi
     else
-        column -ts ',' "$1" | less -S;
+        if [ $# -eq 0 ]; then
+            column -ts ',' | less -S
+        else
+            column -ts ',' "$1" | less -S
+        fi
     fi
 }
 
 coltsv () {
-    if [ $# -eq 0 ]; then
-        column -ts $'\t' | less -S;
+    if command -v csvtk >/dev/null 2>&1; then
+        if [ $# -eq 0 ]; then
+            csvtk pretty | less -S
+        else
+            csvtk pretty "$1" | less -S
+        fi
     else
-        column -ts $'\t' "$1" | less -S;
+        if [ $# -eq 0 ]; then
+            column -ts $'\t' | less -S
+        else
+            column -ts $'\t' "$1" | less -S
+        fi
     fi
 }
