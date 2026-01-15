@@ -157,7 +157,7 @@ in {
     brave
     pandoc
     texliveSmall
-    nixfmt-classic
+    nixfmt
 
     # RStudio, R & R packages
     (rstudioWrapper.override {
@@ -166,20 +166,20 @@ in {
         patchwork
         ggridges
         ggbeeswarm
-        table1
+        # table1
         ggseqlogo
         ggrepel
         tidymodels
-        usethis
+        # usethis
         here
-        gitcreds
-        devtools
-        roxygen2
-        testthat
-        gert
-        shiny
-        golem
-        gt
+        # gitcreds
+        # devtools
+        # roxygen2
+        # testthat
+        # gert
+        # shiny
+        # golem
+        # gt
         viridis
         pROC
       ];
