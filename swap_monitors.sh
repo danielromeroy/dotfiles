@@ -2,7 +2,7 @@
 
 ## swap the 2 external monitors on VMWare Fusion
 
-CONF=$1
+CONF="${1:-$HOME/.config/hypr/monitors.conf}"
 TMP="$(mktemp)"
 
 sed \
