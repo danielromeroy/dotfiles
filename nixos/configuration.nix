@@ -2,15 +2,21 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   hyprPkg = pkgs.hyprland;
   portalPkg = pkgs.xdg-desktop-portal-hyprland;
   pkgs_old = import (builtins.fetchTarball {
-        url = "https://github.com/NixOS/nixpkgs/archive/e6f23dc08d3624daab7094b701aa3954923c6bbb.tar.gz";
-  }) {};
-in {
+    url = "https://github.com/NixOS/nixpkgs/archive/e6f23dc08d3624daab7094b701aa3954923c6bbb.tar.gz";
+  }) { };
+in
+{
   imports = [ ./hardware-configuration.nix ];
 
   # Use the systemd-boot EFI boot loader
@@ -22,13 +28,20 @@ in {
 
   networking.hostName = "vmw-nixos";
   networking.networkmanager.enable = true;
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8" "9.9.9.9" ];
+  networking.nameservers = [
+    "1.1.1.1"
+    "8.8.8.8"
+    "9.9.9.9"
+  ];
 
   time.timeZone = "Europe/Copenhagen";
 
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ libvdpau-va-gl mesa ];
+    extraPackages = with pkgs; [
+      libvdpau-va-gl
+      mesa
+    ];
   };
   virtualisation.vmware.guest.enable = true;
 
@@ -78,7 +91,11 @@ in {
   # user account
   users.users.danyia = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "input" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+    ];
   };
   services.getty.autologinUser = "danyia";
 
@@ -155,6 +172,7 @@ in {
     quarto
     sqlite
     brave
+    chromium
     pandoc
     texliveSmall
     nixfmt
@@ -219,8 +237,9 @@ in {
   environment.variables = {
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
-  fonts.packages = (builtins.filter lib.attrsets.isDerivation
-    (builtins.attrValues pkgs.nerd-fonts)) ++ (with pkgs; [
+  fonts.packages =
+    (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts))
+    ++ (with pkgs; [
       noto-fonts
       jetbrains-mono
       font-awesome
