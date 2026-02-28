@@ -12,9 +12,6 @@
 let
   hyprPkg = pkgs.hyprland;
   portalPkg = pkgs.xdg-desktop-portal-hyprland;
-  pkgs_old = import (builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/e6f23dc08d3624daab7094b701aa3954923c6bbb.tar.gz";
-  }) { };
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -81,12 +78,12 @@ in
   };
 
   # sound
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-    alsa.enable = true;
-    wireplumber.enable = true;
-  };
+  # services.pipewire = {
+  #   enable = true;
+  #   pulse.enable = true;
+  #   alsa.enable = true;
+  #   wireplumber.enable = true;
+  # };
 
   # user account
   users.users.danyia = {
@@ -109,31 +106,8 @@ in
     xwayland.enable = true;
   };
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      quarto = prev.quarto.overrideAttrs (old: {
-        installPhase = ''
-          runHook preInstall
-
-          # Create the expected tools directory so Quarto (and Positron) can find its helpers
-          mkdir -p $out/bin/tools
-          ln -s ${prev.lib.getExe prev.pandoc} $out/bin/tools/pandoc
-          ln -s ${prev.lib.getExe prev.deno} $out/bin/tools/deno
-          ln -s ${prev.lib.getExe prev.esbuild} $out/bin/tools/esbuild
-          ln -s ${prev.lib.getExe prev.typst} $out/bin/tools/typst
-
-
-          # Include the remainder of the original installPhase
-          ${old.installPhase}
-
-          runHook postInstall
-        '';
-      });
-    })
-  ];
-
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowBroken = true;
+  # nixpkgs.config.allowBroken = true;
 
   # packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -143,7 +117,7 @@ in
     curl
     git
     unzip
-    xorg.libxcvt
+    libxcvt
     glib
     imagemagick
     jq
@@ -158,7 +132,6 @@ in
     file
     libsecret
     tree
-    pkgs_old.tshark # compatibility with PyShark
 
     # programs
     fzf
@@ -202,9 +175,6 @@ in
         pROC
       ];
     })
-
-    # for running external programs
-    nix-ld
 
     # hyprland stuff
     waybar
@@ -292,13 +262,13 @@ in
     cups
     alsa-lib
     sqlite.dev
-    xorg.libX11
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrandr
-    xorg.libxcb
+    libX11
+    libXcomposite
+    libXdamage
+    libXext
+    libXfixes
+    libXrandr
+    libxcb
   ];
 
   # Save disk space
